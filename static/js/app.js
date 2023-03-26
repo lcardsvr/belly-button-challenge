@@ -20,7 +20,7 @@ function init (){
     console.log("Names: "+ names);
     console.log("Samples: " + samples);
     
-    //Invoking functions to plot charts in the html 
+    //Invoking functions to plot charts in the html- Initialization is done on the first element (id = 940)
     plotBarChart(samples[0]);
 
     plotBubbleChart(samples[0]);
@@ -28,27 +28,9 @@ function init (){
     plotMetaData(metadata[0]);
 
 
-    sampleNumber = eventChange();
-
-    plotBarChart(samples[sampleNumber]);
-
-    plotBubbleChart(samples[sampleNumber]);
-
-    plotMetaData(metadata[sampleNumber]);
 
   });
 }
-function axis_name_f(arr) {
-    let axis_name = [];
-    for (let i = 0; i < arr.length; i++) {
-      let name = ""  ;
-      name = "OTU "+arr[i];
-      axis_name.push(name);
-    }
-      
-    return axis_name;
-  }
-
 
 
 //Function to plot the BarCharts
@@ -141,6 +123,7 @@ function plotBubbleChart (samples){
 
 }
 
+//Function to plot the MetaData
 
 function plotMetaData (metadata){
 
@@ -173,16 +156,9 @@ function plotMetaData (metadata){
 
 
 
-
-// // Create a new element
-// let li1 = d3.select("ul").append("li");
-// li1.text("A new item has been added!");
-
-// // Use chaining to create a new element and set its text
-// let li2 = d3.select("ul").append("li").text("Another new item!");
-
 }
 
+//Function to fill the dropdowns with all the names
 
 function init_dropdown (names){
 
@@ -190,17 +166,8 @@ function init_dropdown (names){
   // Function called by DOM changes
   let dropdownMenu = d3.select("#selDataset");
 
-  // d3.json(url).then(function(data) {
-  //   console.log(data);
 
-  //   //Names 
-  //   let names = data.names;
-  //   //Samples
-  //   let samples = data.samples;
-  //   //Metadata
-  //   let metadata = data.metadata;
-  // });
-
+  //Fill the dropdown with the names and a value that will later match the 
   for (let i = 0; i<names.length;i++){
 
     dropdownMenu.append("option").text(names[i]).property("value", i);
@@ -209,12 +176,12 @@ function init_dropdown (names){
 
 }
 
-function eventChange (){
+function optionChanged (){
 
     // Function called by DOM changes
     let dropdownMenu = d3.select("#selDataset");
 
-    // Assign the value of the dropdown menu option to a variable
+    // Assign the value of the dropdown menu option to a variable the metadata id and sample id
     let dataset = dropdownMenu.property("value");
 
     let data = d3.json(url).then(function(data) {
