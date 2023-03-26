@@ -32,3 +32,5 @@ Metadata initialises without error. The Metadata updates when a new sample is se
 
 1. Submitted and available in GitHub under https://github.com/lcardsvr/belly-button-challenge
 
+2. Github Page for submission available under https://lcardsvr.github.io./
+
