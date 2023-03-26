@@ -22,7 +22,7 @@ let data = d3.json(url).then(function(data) {
 
    plotBubbleChart(samples[0]);
 
-   plotMetaData (metadata[0])
+   plotMetaData(metadata[0]);
 
 
 
@@ -147,10 +147,17 @@ function plotMetaData (metadata){
 
     console.log("values " + dataValues);
 
-    // for (let i=0;dataValues.length;i++){
 
-    //     console.log(dataLabels[i] + " : " + dataValues[i]);
-    // }
+    d3.select("#sample-metadata").html("");
+
+
+
+    for (let i=0;i<7;i++){
+
+        console.log(dataLabels[i] + " : " + dataValues[i]);
+
+        d3.select("#sample-metadata").append("h6").text(`${dataLabels[i]}  :  ${dataValues[i]}`);
+    }
 
 
 
