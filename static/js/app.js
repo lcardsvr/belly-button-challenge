@@ -6,29 +6,38 @@ let url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1
 let dataPromise = d3.json(url);
 console.log("Data Promise: ", dataPromise);
 
-// Fetch the JSON data and console log it
-let data = d3.json(url).then(function(data) {
-   console.log(data);
+function init (){
+  // Fetch the JSON data and console log it
+  let data = d3.json(url).then(function(data) {
+    console.log(data);
 
-   let names = data.names;
-   let samples = data.samples;
-   let metadata = data.metadata
+    let names = data.names;
+    let samples = data.samples;
+    let metadata = data.metadata;
 
-   console.log("Names: "+ names);
-   console.log("Samples: " + samples);
-   
-   //Invoking functions to plot charts in the html 
-   plotBarChart(samples[0]);
+    init_dropdown (names);
 
-   plotBubbleChart(samples[0]);
+    console.log("Names: "+ names);
+    console.log("Samples: " + samples);
+    
+    //Invoking functions to plot charts in the html 
+    plotBarChart(samples[0]);
 
-   plotMetaData(metadata[0]);
+    plotBubbleChart(samples[0]);
 
-
-
-});
+    plotMetaData(metadata[0]);
 
 
+    sampleNumber = eventChange();
+
+    plotBarChart(samples[sampleNumber]);
+
+    plotBubbleChart(samples[sampleNumber]);
+
+    plotMetaData(metadata[sampleNumber]);
+
+  });
+}
 function axis_name_f(arr) {
     let axis_name = [];
     for (let i = 0; i < arr.length; i++) {
@@ -148,9 +157,12 @@ function plotMetaData (metadata){
     console.log("values " + dataValues);
 
 
+    // Clear previous contents
+
     d3.select("#sample-metadata").html("");
 
 
+    // There are 7 properties in the metadata. Writing The keys and Values in the HTML
 
     for (let i=0;i<7;i++){
 
@@ -170,3 +182,58 @@ function plotMetaData (metadata){
 // let li2 = d3.select("ul").append("li").text("Another new item!");
 
 }
+
+
+function init_dropdown (names){
+
+
+  // Function called by DOM changes
+  let dropdownMenu = d3.select("#selDataset");
+
+  // d3.json(url).then(function(data) {
+  //   console.log(data);
+
+  //   //Names 
+  //   let names = data.names;
+  //   //Samples
+  //   let samples = data.samples;
+  //   //Metadata
+  //   let metadata = data.metadata;
+  // });
+
+  for (let i = 0; i<names.length;i++){
+
+    dropdownMenu.append("option").text(names[i]).property("value", i);
+
+  }
+
+}
+
+function eventChange (){
+
+    // Function called by DOM changes
+    let dropdownMenu = d3.select("#selDataset");
+
+    // Assign the value of the dropdown menu option to a variable
+    let dataset = dropdownMenu.property("value");
+
+    let data = d3.json(url).then(function(data) {
+      console.log(data);
+   
+      let samples = data.samples;
+      let metadata = data.metadata;
+   
+
+   
+      plotBarChart(samples[dataset]);
+   
+      plotBubbleChart(samples[dataset]);
+   
+      plotMetaData(metadata[dataset]);
+   
+   });
+
+
+  }
+
+  init();
